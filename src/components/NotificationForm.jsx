@@ -9,7 +9,7 @@ const NotificationForm = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/create-notification`,
+        `https://notification-backend.aramanu01.workers.dev/api/create-notification`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
