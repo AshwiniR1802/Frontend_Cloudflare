@@ -19,7 +19,7 @@ const NotificationFeed = () => {
   useEffect(() => {
     // Fetch unread notifications on page load
     const fetchNotifications = async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/get-notifications`);
+      const response = await fetch(`https://notification-backend.aramanu01.workers.dev/api/get-notifications`);
       const data = await response.json();
       // Sort notifications by most recent
       const sortedData = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
