@@ -17,28 +17,17 @@ const NotificationFeed = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // Fetch unread notifications on component mount
+    // Fetch unread notifications on page load
     const fetchNotifications = async () => {
-      try {
-        const response = await fetch(`https://notification-backend.aramanu01.workers.dev/api/get-notifications`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch notifications');
-        }
-
-        const data = await response.json();
-
-        // Sort notifications by most recent
-        const sortedData = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        
-        setNotifications(sortedData);
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
+      const response = await fetch(`https://notification-backend.aramanu01.workers.dev/api/get-notifications`);
+      const data = await response.json();
+      // Sort notifications by most recent
+      const sortedData = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      setNotifications(sortedData);
     };
 
     fetchNotifications();
-  }, []); // Empty dependency array ensures this only runs once on mount
+  }, []);
 
   return (
     <div
@@ -48,33 +37,28 @@ const NotificationFeed = () => {
         overflowY: 'auto',
         padding: '10px',
         accessKey: 'F',
-        border: '1px solid #D8BFD8', // Thistle border color
       }}
     >
-      {notifications.length === 0 ? (
-        <p>No notifications available</p>
-      ) : (
-        notifications.map((notification, index) => (
-          <div
-            key={index}
-            className="notification-card"
-            style={{
-              height: '70px',
-              marginBottom: '10px',
-              padding: '10px',
-              backgroundColor:
-                notification.type === 'alert'
-                  ? '#ffcccb'
-                  : notification.type === 'success'
-                  ? '#90ee90'
-                  : '#add8e6',
-            }}
-          >
-            <p className="notification-message">{notification.message}</p>
-            <div className="notification-timestamp">{formatDate(notification.timestamp)}</div>
-          </div>
-        ))
-      )}
+      {notifications.map((notification, index) => (
+        <div
+          key={index}
+          className="notification-card"
+          style={{
+            height: '70px',
+            marginBottom: '10px',
+            padding: '10px',
+            backgroundColor:
+              notification.type === 'alert'
+                ? '#ffcccb'
+                : notification.type === 'success'
+                ? '#90ee90'
+                : '#add8e6',
+          }}
+        >
+          <p className="notification-message">{notification.message}</p>
+          <div className="notification-timestamp">{formatDate(notification.timestamp)}</div>
+        </div>
+      ))}
     </div>
   );
 };
